@@ -1,3 +1,64 @@
 * {
   box-sizing: border-box;
 }
+
+body{
+  background-color: #001535;
+  color: white;
+}
+
+header{
+  font-size: 3rem;
+  background-color: #00139a;
+  width: 100%;
+  padding: 1rem;
+}
+
+h3{
+  font-size: 2rem;
+  margin: 1rem;
+}
+
+/* Button to Click */
+div{
+  background-color:#994a44;
+  display:inline-block;
+  padding: 1rem;
+  margin: 2rem 2rem 0rem 2rem;
+}
+
+div.clicks-allowed{
+  cursor:pointer;
+}
+
+/* Voting Area */
+section{
+  background-color:#ebb65d;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border: 5px solid #00c5ed;
+}
+
+section img{
+  height: 20rem;
+  width: 25%;
+  margin: .5rem 1rem;
+  border: 5px solid transparent;
+}
+
+section img:hover{
+  border: 5px solid #994a44;
+  cursor: pointer;
+}
+
+/* Results Area */
+ul{
+  background-color: #994a44;
+  border: 5px solid #00139a;
+  width:70%;
+  text-align:center;
+  display: inline-block;
+  columns:2;
+  margin: 1rem 3rem;
+}
