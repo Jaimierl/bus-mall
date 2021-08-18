@@ -9,7 +9,7 @@ let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:nth-child(3)');
 
 let clicks = 0;
-let clicksAllowed = 1;
+let clicksAllowed = 25;
 
 function Pic(name,fileExtension = 'jpg'){
   this.name = name;
