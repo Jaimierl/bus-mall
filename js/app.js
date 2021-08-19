@@ -3,13 +3,14 @@
 let allPics = [];
 
 let myContainer = document.querySelector('section');
-let myButton = document.querySelector('section + div');
 let image1 = document.querySelector('section img:first-child');
 let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:nth-child(3)');
 
 let clicks = 0;
 let clicksAllowed = 25;
+
+let indexArray = [];
 
 function Pic(name,fileExtension = 'jpg'){
   this.name = name;
@@ -20,39 +21,30 @@ function Pic(name,fileExtension = 'jpg'){
 }
 
 function selectRandomPic(){
-  return Math.round(Math.random() * allPics.length);
+  return Math.floor(Math.random() * allPics.length);
 }
 
-// Put the pics in an array. Then the includes thing is to sort out the case where there are two pics calling for the same thing.Includes check - if not included you can push the new img into the array.
+// Put the pics in an array. The while loop is building an array of 6 pictures and the includes part there is making sure we are not adding a number already in the array.
 function renderPics(){
-  let pic1 = selectRandomPic();
-  let pic2 = selectRandomPic();
-  let pic3 = selectRandomPic();
-  let images = [];
-
-  // Here we use an includes loop to make sure the pictures are not repeated.
-  images.push(pic1);
-
-  if (images.includes(pic2)===true){
-    pic2 = selectRandomPic();
-  } else{
-    images.push(pic2);
+  while (indexArray.length<6){
+    let randomNumber = selectRandomPic();
+    if (!indexArray.includes(randomNumber)){
+      indexArray.push(randomNumber);
+    }
   }
-  if (images.includes(pic3)===true){
-    pic3 = selectRandomPic();
-  } else{
-    images.push(pic3);
-  }
+  // console.log(indexArray);
+  let pic1 = indexArray.shift();
+  let pic2 = indexArray.shift();
+  let pic3 = indexArray.shift();
+  // console.log(indexArray);
 
   image1.src = allPics[pic1].src;
   image2.src = allPics[pic2].src;
   image3.src = allPics[pic3].src;
 
-  console.log(pic1,pic2,pic3);
-
-  image1.alt = allPics[pic1.name];
-  image2.alt = allPics[pic2.name];
-  image3.alt = allPics[pic3.name];
+  image1.alt = allPics[pic1].name;
+  image2.alt = allPics[pic2].name;
+  image3.alt = allPics[pic3].name;
 
   // To increment how many times each image has been viewed
   allPics[pic1].views++;
@@ -67,34 +59,30 @@ function handlePicClick(event){
   }
   // To count how many times an image is clicked on
   clicks++;
+  console.log(clicks);
   let clickPic = event.target.alt;
-  // console.log(clickPic);
+  console.log(clickPic);
+  console.log(allPics.length);
+
 
   for (let i=0; i<allPics.length; i++){
+    console.log(i);
     if (clickPic === allPics[i].name){
       allPics[i].clicks++;
+      console.log('CLICKED!!!!!!!!!!');
       break;
     }
   }
+
   if (clicks===clicksAllowed){
-    myButton.className = 'clicks-allowed';
-    // This is pushing the clicks allowed class when this feature is active.
     myContainer.removeEventListener('click', handlePicClick);
+    renderChart();
+  } else{
+    renderPics();
   }
-  renderPics();
+  console.log(allPics);
 }
 
-
-function handleButtonClick(){
-  console.log ('hi');
-  let ul = document.querySelector('ul');
-  for (let i=0; i<allPics.length; i++){
-    let li = document.createElement('li');
-    console.log(i);
-    li.textContent = `${allPics[i].name} had ${allPics[i].views} views and was clicked ${allPics[i].clicks} times`;
-    ul.appendChild(li);
-  }
-}
 
 new Pic('bag');
 new Pic('banana');
@@ -116,9 +104,52 @@ new Pic('unicorn');
 new Pic('water-can');
 new Pic('wine-glass');
 
-console.log(allPics);
+
 renderPics();
 
+
+function renderChart(){
+  let picNames = [];
+  let picClicks = [];
+  let picViews = [];
+
+  for (let i=0; i<allPics.length; i++){
+    picNames.push(allPics[i].name);
+    picClicks.push(allPics[i].clicks);
+    picViews.push(allPics[i].views);
+  }
+  console.log(picNames,picClicks,picViews);
+
+  let ctx = document.getElementById('myChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: picNames,
+      datasets: [{
+        label: '# of Views',
+        data: picViews,
+        backgroundColor: '#994a44',
+        borderColor: 'rgba(80, 72, 275, 0.4)',
+        borderWidth: 1
+      },{
+        label: '# of Clicks',
+        data: picClicks,
+        backgroundColor: '#00139a',
+        borderColor: 'rgba(80, 72, 275, 0.4)',
+        borderWidth: 1
+      }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
 myContainer.addEventListener('click', handlePicClick);
-myButton.addEventListener('click', handleButtonClick);
+
 
