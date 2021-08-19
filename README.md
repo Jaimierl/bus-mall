@@ -8,5 +8,5 @@ Bus Mall Project
 ### Links, Resources, and Credits
 * [CSS Reset](https://meyerweb.com/eric/tools/css/reset/)
 * Random number code from W3 Schools
-
+* Chart Code Structure from www.chart.js.org
 
