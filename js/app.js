@@ -8,7 +8,7 @@ let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:nth-child(3)');
 
 let clicks = 0;
-let clicksAllowed = 1;
+let clicksAllowed = 25;
 
 let indexArray = [];
 
@@ -116,6 +116,20 @@ function storePics(){
   localStorage.setItem('storage', stringifiedPics);
 }
 
+// Reinstantiation - aka taking things out of local storage and running them through the constructor function so they are real objects again instead of Plain JS Objects
+function getPics(){
+  let pastPics = localStorage.getItem('storage');
+  if(pastPics){
+    let picString = JSON.parse(pastPics);
+    console.log(picString);
+    for (let obj of picString){
+      let name = obj.name;
+      let src = obj.src;
+      let views = obj.views;
+      let clicks = obj.clicks;
+    }
+  }
+}
 
 function renderChart(){
   let picNames = [];
@@ -161,4 +175,6 @@ function renderChart(){
 
 myContainer.addEventListener('click', handlePicClick);
 
+getPics();
+// We are putting this call here so it loads on page load.
 
