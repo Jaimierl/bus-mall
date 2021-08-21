@@ -81,6 +81,7 @@ function handlePicClick(event){
     renderPics();
   }
   console.log(allPics);
+  storePics();
 }
 
 
@@ -107,6 +108,28 @@ new Pic('wine-glass');
 
 renderPics();
 
+function storePics(){
+  // 'storage' is our KEY. Lets declare it so local storage recognizes it.
+  console.log(allPics);
+  let stringifiedPics = JSON.stringify(allPics);
+  console.log(stringifiedPics);
+  localStorage.setItem('storage', stringifiedPics);
+}
+
+// Reinstantiation - aka taking things out of local storage and running them through the constructor function so they are real objects again instead of Plain JS Objects
+function getPics(){
+  let pastPics = localStorage.getItem('storage');
+  if(pastPics){
+    let picString = JSON.parse(pastPics);
+    console.log(picString);
+    for (let obj of picString){
+      let name = obj.name;
+      let src = obj.src;
+      let views = obj.views;
+      let clicks = obj.clicks;
+    }
+  }
+}
 
 function renderChart(){
   let picNames = [];
@@ -152,4 +175,6 @@ function renderChart(){
 
 myContainer.addEventListener('click', handlePicClick);
 
+getPics();
+// We are putting this call here so it loads on page load.
 
