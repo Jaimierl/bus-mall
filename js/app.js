@@ -8,7 +8,7 @@ let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:nth-child(3)');
 
 let clicks = 0;
-let clicksAllowed = 25;
+let clicksAllowed = 1;
 
 let indexArray = [];
 
@@ -81,6 +81,7 @@ function handlePicClick(event){
     renderPics();
   }
   console.log(allPics);
+  storePics();
 }
 
 
@@ -106,6 +107,14 @@ new Pic('wine-glass');
 
 
 renderPics();
+
+function storePics(){
+  // 'storage' is our KEY. Lets declare it so local storage recognizes it.
+  console.log(allPics);
+  let stringifiedPics = JSON.stringify(allPics);
+  console.log(stringifiedPics);
+  localStorage.setItem('storage', stringifiedPics);
+}
 
 
 function renderChart(){
