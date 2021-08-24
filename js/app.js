@@ -12,11 +12,11 @@ let clicksAllowed = 25;
 
 let indexArray = [];
 
-function Pic(name,fileExtension = 'jpg', views = 0, clicks = 0){
+function Pic(name, fileExtension = 'jpg'){
   this.name = name;
   this.src = `img/${name}.${fileExtension}`;
-  this.views = views;
-  this.clicks = clicks;
+  this.views = 0;
+  this.clicks = 0;
   allPics.push(this);
 }
 
@@ -59,14 +59,14 @@ function handlePicClick(event){
   }
   // To count how many times an image is clicked on
   clicks++;
-  console.log(clicks);
+  // console.log(clicks);
   let clickPic = event.target.alt;
-  console.log(clickPic);
-  console.log(allPics.length);
+  // console.log(clickPic);
+  // console.log(allPics.length);
 
 
   for (let i=0; i<allPics.length; i++){
-    console.log(i);
+    // console.log(i);
     if (clickPic === allPics[i].name){
       allPics[i].clicks++;
       console.log('CLICKED!!!!!!!!!!');
@@ -77,11 +77,11 @@ function handlePicClick(event){
   if (clicks===clicksAllowed){
     myContainer.removeEventListener('click', handlePicClick);
     renderChart();
+    storePics();
   } else{
     renderPics();
   }
-  console.log(allPics);
-  storePics();
+  // console.log(allPics);
 }
 
 
@@ -110,9 +110,9 @@ renderPics();
 
 function storePics(){
   // 'storage' is our KEY. Lets declare it so local storage recognizes it.
-  console.log(allPics);
+  // console.log(allPics);
   let stringifiedPics = JSON.stringify(allPics);
-  console.log(stringifiedPics);
+  // console.log(stringifiedPics);
   localStorage.setItem('storage', stringifiedPics);
 }
 
@@ -121,15 +121,13 @@ function getPics(){
   let pastPics = localStorage.getItem('storage');
   if(pastPics){
     let picString = JSON.parse(pastPics);
-    console.log(picString);
-    for (let obj of picString){
-      let name = obj.name;
-      let src = obj.src;
-      let views = obj.views;
-      let clicks = obj.clicks;
-      let newItem = new Pic (name, src, views, clicks);
-      console.log(newItem);
+    for (let i = 0; i<picString.length - 1; i++){
+      allPics[i].views = picString[i].views;
+      allPics[i].clicks = picString[i].clicks;
     }
+    // We are using the above code to replace the data in the click and views line with the info from the local storage. Doing it the way of running the variables through the Pic function was giving me errors with the image names.s
+    console.log("PicString------------", picString);
+    console.log("AllPics------------", allPics);
   }
 }
 
