@@ -12,11 +12,11 @@ let clicksAllowed = 25;
 
 let indexArray = [];
 
-function Pic(name,fileExtension = 'jpg'){
+function Pic(name,fileExtension = 'jpg', views = 0, clicks = 0){
   this.name = name;
   this.src = `img/${name}.${fileExtension}`;
-  this.views = 0;
-  this.clicks = 0;
+  this.views = views;
+  this.clicks = clicks;
   allPics.push(this);
 }
 
@@ -127,6 +127,8 @@ function getPics(){
       let src = obj.src;
       let views = obj.views;
       let clicks = obj.clicks;
+      let newItem = new Pic (name, src, views, clicks);
+      console.log(newItem);
     }
   }
 }
